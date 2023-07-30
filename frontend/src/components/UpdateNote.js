@@ -5,12 +5,16 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 function UpdateNote() {
-//   const data = useParams();
-//   const context = useContext(NoteContext);
-//   const { addNote, getNote } = context;
+  //   const data = useParams();
+  //   const context = useContext(NoteContext);
+  //   const { addNote, getNote } = context;
   const location = useLocation();
   const props = location.state;
-  const [note, setnote] = useState({ title: props.title, description: props.description, tag: props.tag });
+  const [note, setnote] = useState({
+    title: props.title,
+    description: props.description,
+    tag: props.tag,
+  });
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const user = props.id;
@@ -19,14 +23,14 @@ function UpdateNote() {
     // setErrors((prev) => ({ ...prev, [e.target.name]: '' }))
   };
   // const handleClick = () => {
-//   const noteClick = () => {
-//     navigate(`/map/${data.id}`);
-//   };
+  //   const noteClick = () => {
+  //     navigate(`/map/${data.id}`);
+  //   };
   const handleClick = async (req, res) => {
     const { title, description, tag } = note;
 
     axios
-      .post("http://localhost:8000/update", {
+      .post("https://noteversebackend.onrender.com/update", {
         user: props.id,
         oldtitle: props.title,
         olddescription: props.description,
@@ -35,7 +39,9 @@ function UpdateNote() {
         description: description,
         tag: tag,
       })
-      .then((res) => {  navigate(`/map/${props.id}`);})
+      .then((res) => {
+        navigate(`/map/${props.id}`);
+      })
       .catch((err) => {
         console.log("err" + err);
       });
@@ -84,7 +90,7 @@ function UpdateNote() {
             className="form-select"
             aria-label="Default select example"
             id="tag"
-           defaultValue={props.tag}
+            defaultValue={props.tag}
             onChange={onchange}
             name="tag"
           >
@@ -103,7 +109,7 @@ function UpdateNote() {
             type="text"
             className="form-control"
             id="title"
-          defaultValue={props.title}
+            defaultValue={props.title}
             onChange={onchange}
             name="title"
           ></input>
